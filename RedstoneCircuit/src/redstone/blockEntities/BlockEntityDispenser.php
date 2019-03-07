@@ -113,7 +113,18 @@ class BlockEntityDispenser extends Spawnable implements InventoryHolder, Contain
             return;
         }
         */
-
+        if ($drop->getId() == 259) {
+            $side = $block->getSide($damage);
+            $sideId = $side->getId();
+            $dropDamage = $drop->getDamage();
+            if ($dropDamage == 0 && ($sideId == 0)) {
+                $this->level->setBlock($side, Block::get(51));
+                $drop->setDamage($sideId);
+                if ($inventory->canAddItem($drop)) {
+                    $inventory->addItem($drop);
+                    $this->level->broadcastLevelEvent($this->add(0.5, 0.5, 0.5), LevelEventPacket::EVENT_SOUND_CLICK, 1000);
+                    return;
+                }
         if ($drop->getId() == 325) {
             $side = $block->getSide($damage);
             $sideId = $side->getId();
